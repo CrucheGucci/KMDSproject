@@ -62,12 +62,14 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 const scene = new THREE.Scene();
-scene.add(new THREE.AmbientLight( 0xffffff, 0.1) );
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 20);
-camera.position.set( - 1.8, 0.6, 2.7 );
-var light = new THREE.PointLight( 0xffffff, 1);
-camera.add(light);
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+camera.position.set(4, 5, 11 );
+camera.lookAt(0, 0, 0);
 
+
+const lights = new THREE.SpotLight(0xffffff, 3, 100, 0.2, 0.5, 0.1);
+lights.position.set(0, 25, 0);
+scene.add(lights);
 const loader = new GLTFLoader();
 
 loader.load( './Blender/monkey.glb', async function ( gltf ) {
@@ -80,5 +82,8 @@ loader.load( './Blender/monkey.glb', async function ( gltf ) {
 
 } );
 const renderer = new THREE.WebGLRenderer();
+renderer.outputColorSpace = THREE.SRGBColorSpace
 renderer.setSize( window.innerWidth, window.innerHeight );
+renderer.setClearColor(0xffffff);
+renderer.setPixelRatio(window.devicePixelRatio);
 document.body.appendChild( renderer.domElement );
