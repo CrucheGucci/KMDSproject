@@ -61,29 +61,64 @@
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+const renderer = new THREE.WebGLRenderer();
+const controls = new OrbitControls( camera, renderer.domElement );
+const lights = new THREE.SpotLight(0xffffff, 3, 100, 0.2, 0.5, 0.1);
+const lights2 = new THREE.SpotLight(0xffffff, 3, 100, 0.2, 0.5, 0.1);
+const lights3 = new THREE.SpotLight(0xffffff, 3, 100, 0.2, 0.5, 0.1);
+const lights4 = new THREE.SpotLight(0xffffff, 3, 100, 0.2, 0.5, 0.1);
+const loader = new GLTFLoader();
+const helper = new THREE.DirectionalLightHelper(lights, 5);
 camera.position.set(4, 5, 11 );
 camera.lookAt(0, 0, 0);
+controls.update();
 
 
-const lights = new THREE.SpotLight(0xffffff, 3, 100, 0.2, 0.5, 0.1);
+
 lights.position.set(0, 25, 0);
+lights2.position.set(0, -25, 0);
+lights3.position.set(32, 15, 5);
+lights4.position.set(32, -15, 5);
 scene.add(lights);
-const loader = new GLTFLoader();
+scene.add(lights2);
+scene.add(lights3);
+scene.add(lights4);
+scene.add(helper);
 
 loader.load( './Blender/monkey.glb', async function ( gltf ) {
     const model = gltf.scene;
 	scene.add( model );
+    
     renderer.render( scene, camera, model );
 }, undefined, function ( error ) {
 
 	console.error( error );
 
 } );
-const renderer = new THREE.WebGLRenderer();
+
+loader.load( './Blender/monkey2.glb', async function ( gltf ) {
+    const model = gltf.scene;
+    model.position.set(10, 0, 0);
+	scene.add( model );
+    
+    renderer.render( scene, camera, model );
+}, undefined, function ( error ) {
+
+	console.error( error );
+
+} );
+
+function animate(){
+    controls.update();
+    renderer.render( scene, camera );
+}
+
 renderer.outputColorSpace = THREE.SRGBColorSpace
 renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.setClearColor(0xffffff);
 renderer.setPixelRatio(window.devicePixelRatio);
 document.body.appendChild( renderer.domElement );
+renderer.setAnimationLoop( animate );
