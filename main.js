@@ -88,20 +88,11 @@ scene.add(lights3);
 scene.add(lights4);
 scene.add(helper);
 
-loader.load( './Blender/monkey.glb', async function ( gltf ) {
+
+
+loader.load( './Blender/PAN_TIMUR_GENIUS.glb', async function ( gltf ) {
     const model = gltf.scene;
-	scene.add( model );
-    
-    renderer.render( scene, camera, model );
-}, undefined, function ( error ) {
-
-	console.error( error );
-
-} );
-
-loader.load( './Blender/monkey2.glb', async function ( gltf ) {
-    const model = gltf.scene;
-    model.position.set(10, 0, 0);
+    model.position.set(0, 0, 0);
 	scene.add( model );
     
     renderer.render( scene, camera, model );
