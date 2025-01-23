@@ -64,8 +64,10 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer( { antialias: true } );
 const controls = new OrbitControls( camera, renderer.domElement );
+const pointer = new THREE.Vector2();
+const raycaster = new THREE.Raycaster();
 const lights = new THREE.SpotLight(0xffffff, 3, 100, 0.2, 0.5, 0.1);
 const lights2 = new THREE.SpotLight(0xffffff, 3, 100, 0.2, 0.5, 0.1);
 const lights3 = new THREE.SpotLight(0xffffff, 3, 100, 0.2, 0.5, 0.1);
@@ -102,6 +104,17 @@ loader.load( './Blender/PAN_TIMUR_GENIUS.glb', async function ( gltf ) {
 
 } );
 
+loader.load( './Blender/PAN_TIMUR_GENIUS.glb', async function ( gltf ) {
+    const model = gltf.scene;
+    model.position.set(10, 0, 0);
+	scene.add( model );
+    
+    renderer.render( scene, camera, model );
+}, undefined, function ( error ) {
+
+	console.error( error );
+
+} );
 function animate(){
     controls.update();
     renderer.render( scene, camera );
@@ -113,3 +126,10 @@ renderer.setClearColor(0xffffff);
 renderer.setPixelRatio(window.devicePixelRatio);
 document.body.appendChild( renderer.domElement );
 renderer.setAnimationLoop( animate );
+stats = new Stats();
+				document.body.appendChild( stats.dom );
+
+				document.addEventListener( 'mousemove', onPointerMove );
+
+
+				window.addEventListener( 'resize', onWindowResize );
