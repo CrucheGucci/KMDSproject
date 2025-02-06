@@ -98,8 +98,8 @@ class PickHelper {
 const pickHelper = new PickHelper();
 
 const controls = new OrbitControls( camera, renderer.domElement );
-const pointer = new THREE.Vector2();
-const raycaster = new THREE.Raycaster();
+// const pointer = new THREE.Vector2();
+// const raycaster = new THREE.Raycaster();
 const lights = new THREE.SpotLight(0xffffff, 3, 100, 0.2, 0.5, 0.1);
 const lights2 = new THREE.SpotLight(0xffffff, 3, 100, 0.2, 0.5, 0.1);
 const lights3 = new THREE.SpotLight(0xffffff, 3, 100, 0.2, 0.5, 0.1);
